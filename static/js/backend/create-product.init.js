@@ -76,7 +76,7 @@ if (editinputValueJson) {
             })
         }
     })
-}
+} 
 
 var forms = document.querySelectorAll('.needs-validation')
 // date & time
@@ -156,7 +156,7 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                     inputValueJson.push(newObj);
                     sessionStorage.setItem('inputValue', JSON.stringify(inputValueJson));
                 }
-                window.location.replace("/product/product_create");
+                saveData(editObj);
             }else if (formAction == "edit" && productCategoryValue !== "" && thumbnailArray.length > 0) {
                 var editproductId = document.getElementById("product-id-input").value;
                 if (sessionStorage.getItem('editInputValue')) {
@@ -176,7 +176,7 @@ Array.prototype.slice.call(forms).forEach(function (form) {
                     };
                     sessionStorage.setItem('editInputValue', JSON.stringify(editObj));
                 }
-                window.location.replace("/product/product_create");
+                saveData(newObj);
             }else {
                 console.log('Form Action Not Found.');
             }
@@ -188,3 +188,26 @@ Array.prototype.slice.call(forms).forEach(function (form) {
 
     }, false)
 });
+function saveData(data) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/product/save_product/", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Data saved successfully');
+            } else {
+                console.error('Failed to save data. Status: ' + xhr.status);
+            }
+        }
+    };
+    xhr.onerror = function () {
+        console.error('Error during request');
+    };
+    try {
+        xhr.send(JSON.stringify(data));
+    } catch (e) {
+        console.error('Exception during request: ' + e.message);
+    }
+}
+

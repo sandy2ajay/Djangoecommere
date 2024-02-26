@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import Products
 
 # Create your views here.
 
@@ -51,3 +54,29 @@ statistics_view = MenuView.as_view(template_name = "menu/statistics.html")
 transactions_view = MenuView.as_view(template_name = "menu/localization/transactions.html") 
 
 currency_rates_view = MenuView.as_view(template_name = "menu/localization/currency-rates.html") 
+@csrf_exempt  # Temporary disable CSRF for simplicity (consider using csrf protection in production)
+def save_data_view(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+
+        # Save data to your model
+        your_model_instance = Products(
+            # Map your fields from the data object
+            id=data.get('id'),
+            productImg=data.get('productImg'),
+            productTitle=data.get('productTitle'),
+            category=data.get('category'),
+            price=data.get('price'),
+            discount=data.get('discount'),
+            rating=data.get('rating'),
+            color=data.get('color'),
+            size=data.get('size'),
+            stock=data.get('stock'),
+            orders=data.get('orders'),
+            publish=data.get('publish'),
+        )
+        your_model_instance.save()
+
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error'})

@@ -8,6 +8,7 @@ from menu.views import (
     product_create_view,
     categories_view,
     sub_categories_view,
+    save_data_view,
     
     orders_list_view,
     orders_overview_view,
@@ -46,7 +47,8 @@ urlpatterns = [
     path('product/product_create',view=product_create_view,name='product.product_create'),
     path('product/categories',view=categories_view,name='product.categories'),
     path('product/sub_categories',view=sub_categories_view,name='product.sub_categories'),
-    
+    path('product/save_product/', save_data_view, name='save_data'),
+
     path('orders/list_view',view=orders_list_view,name='orders.list_view'),
     path('orders/overview',view=orders_overview_view,name='orders.overview_view'),
     

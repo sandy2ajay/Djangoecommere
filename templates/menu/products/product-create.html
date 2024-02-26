@@ -16,6 +16,7 @@
     {% endblock pagetitle %}
 
                         <form id="createproduct-form" autocomplete="off" class="needs-validation" novalidate>
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-xl-9 col-lg-8">
                                     <div class="card">
@@ -146,7 +147,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- end row -->
+                                            <!-- end row --> 
 
                                             <div class="row">
                                                 <div class="col-lg-3 col-sm-6">
